@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rainy Learning - Uziel y Natito</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f0f9ff;
+            --primary: #3b82f6;
+            --success: #22c55e;
+            --error: #ef4444;
+            --uziel-color: #4f46e5;
+            --natito-color: #ec4899;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- HEADER --- */
+        .header-main {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background: white;
+            border-bottom: 4px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 110;
+        }
+
+        .game-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin: 0;
+            text-shadow: 2px 2px 0px #bfdbfe;
+        }
+
+        /* --- INITIAL MENU --- */
+        #menu-screen {
+            position: absolute;
+            top: 74px;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .menu-row-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1100px;
+            padding: 0 20px;
+        }
+
+        .side-photo {
+            width: 180px; 
+            height: 180px; 
+            border-radius: 50%;
+            border: 10px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .side-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-uziel { border-color: var(--uziel-color); }
+        .photo-natito { border-color: var(--natito-color); }
+
+        .menu-buttons-center {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            flex: 1;
+            align-items: center;
+        }
+
+        .menu-btn {
+            width: 90%;
+            max-width: 450px;
+            padding: 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        .menu-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+        }
+
+        .btn-letters { background: #ff6b6b; border-bottom: 8px solid #ee5253; }
+        .btn-numbers { background: #4ecdc4; border-bottom: 8px solid #45b7af; }
+        .btn-colors { background: #ffbe0b; border-bottom: 8px solid #f9a825; }
+
+        /* --- GAME AREA --- */
+        #game-area {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(to bottom, #e0f2fe, #f0f9ff);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        #rain-container {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 65%; 
+            max-width: 750px;
+            pointer-events: none;
+        }
+
+        .falling-item {
+            position: absolute;
+            font-size: 7.5rem; 
+            font-weight: 900;
+            filter: drop-shadow(4px 4px 0 white);
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        /* --- KEYBOARD --- */
+        #keyboard-container {
+            flex-shrink: 0;
+            height: 220px;
+            background: #f1f5f9;
+            border-top: 4px solid #e2e8f0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 15px;
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        .key {
+            width: 75px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 18px;
+            font-weight: bold;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 0 #cbd5e1;
+            cursor: pointer;
+        }
+        .key:active { transform: translateY(2px); box-shadow: none; }
+
+        /* --- FOOTER --- */
+        footer {
+            flex-shrink: 0;
+            height: 40px;
+            background: #1e293b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            font-size: 0.9rem;
+            z-index: 120;
+        }
+
+        #back-btn { position: absolute; top: 15px; left: 15px; z-index: 60; padding: 12px 25px; border-radius: 15px; border: 3px solid #3b82f6; background: white; font-weight: bold; color: #3b82f6; cursor: pointer; font-size: 1.1rem; }
+        #progress-counter { position: absolute; top: 15px; right: 15px; z-index: 60; background: #3b82f6; color: white; padding: 10px 25px; border-radius: 15px; font-weight: bold; font-size: 1.4rem; }
+
+        #fanfare-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(255,255,255,0.95);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            #rain-container { width: 85%; }
+            .side-photo { width: 110px; height: 110px; border-width: 6px; }
+            .menu-btn { font-size: 1.5rem; padding: 18px; }
+            .falling-item { font-size: 5.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header-main">
+    <h1 class="game-title">⭐ RAINY LEARNING ⭐</h1>
+</header>
+
+<div id="menu-screen">
+    <div class="menu-row-main">
+        <div class="side-photo photo-uziel">
+            <!-- Imagen local actualizada -->
+            <img src="uziel.png" alt="Uziel">
+        </div>
+
+        <div class="menu-buttons-center">
+            <button class="menu-btn btn-letters" onclick="startGame('letters')">LETRAS</button>
+            <button class="menu-btn btn-numbers" onclick="startGame('numbers')">NÚMEROS</button>
+            <button class="menu-btn btn-colors" onclick="startGame('colors')">COLORES</button>
+        </div>
+
+        <div class="side-photo photo-natito">
+            <!-- Imagen local actualizada -->
+            <img src="natito.png" alt="Natito">
+        </div>
+    </div>
+</div>
+
+<div id="game-area">
+    <button id="back-btn" onclick="showMenu()">↩ VOLVER</button>
+    <div id="progress-counter">0 / 15</div>
+    <div id="rain-container"></div>
+</div>
+
+<div id="keyboard-container"></div>
+
+<div id="fanfare-overlay">
+    <div style="font-size: 6rem; margin-bottom: 20px;">🏆</div>
+    <h1 style="font-size: 3.5rem; color: #1e293b; margin: 0;">¡EXCELENTE TRABAJO! 🎉</h1>
+    <p style="font-size: 2rem; color: #64748b;">Uziel y Natito están felices</p>
+</div>
+
+<footer>
+    <div class="footer-left">TecnoTips ©</div>
+    <div class="footer-right">Abuelito Franklin</div>
+</footer>
+
+<script>
+    const config = {
+        letters: "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split(""),
+        numbers: "0123456789".split(""),
+        colors: [ { name: "Rojo", hex: "#ef4444" }, { name: "Azul", hex: "#3b82f6" }, { name: "Verde", hex: "#22c55e" }, { name: "Amarillo", hex: "#fbbf24" }, { name: "Rosa", hex: "#ec4899" }, { name: "Naranja", hex: "#f97316" }, { name: "Morado", hex: "#a855f7" }, { name: "Blanco", hex: "#ffffff" }, { name: "Negro", hex: "#000000" }, { name: "Marrón", hex: "#8b4513" } ],
+        targets: { letters: 12, numbers: 8, colors: 6 }
+    };
+
+    let currentMode = "";
+    let fallingElements = [];
+    let gameActive = false;
+    let score = 0;
+    let spawnTimer;
+
+    function startGame(mode) {
+        currentMode = mode;
+        gameActive = true;
+        score = 0;
+        updateProgress();
+        document.getElementById('menu-screen').style.display = 'none';
+        renderKeyboard();
+        spawnItem();
+        requestAnimationFrame(gameLoop);
+    }
+
+    function showMenu() {
+        gameActive = false;
+        clearTimeout(spawnTimer);
+        document.getElementById('menu-screen').style.display = 'flex';
+        document.getElementById('rain-container').innerHTML = '';
+        fallingElements = [];
+    }
+
+    function updateProgress() {
+        document.getElementById('progress-counter').innerText = `${score} / ${config.targets[currentMode]}`;
+    }
+
+    function renderKeyboard() {
+        const container = document.getElementById('keyboard-container');
+        container.innerHTML = "";
+        let items = currentMode === 'colors' ? config.colors : config[currentMode];
+
+        items.forEach(item => {
+            const btn = document.createElement('div');
+            btn.className = 'key';
+            if (currentMode === 'colors') {
+                btn.style.backgroundColor = item.hex;
+                btn.dataset.value = item.hex;
+                btn.style.borderColor = "white";
+            } else {
+                btn.innerText = item;
+                btn.dataset.value = item;
+            }
+            btn.onclick = () => checkMatch(btn.dataset.value, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function spawnItem() {
+        if (!gameActive) return;
+        const container = document.getElementById('rain-container');
+        const element = document.createElement('div');
+        element.className = 'falling-item';
+
+        let val;
+        if (currentMode === 'colors') {
+            const c = config.colors[Math.floor(Math.random() * config.colors.length)];
+            element.style.width = "140px";
+            element.style.height = "140px";
+            element.style.borderRadius = "35px";
+            element.style.backgroundColor = c.hex;
+            element.style.border = "10px solid white";
+            val = c.hex;
+        } else {
+            val = config[currentMode][Math.floor(Math.random() * config[currentMode].length)];
+            element.innerText = val;
+            element.style.color = `hsl(${Math.random() * 360}, 75%, 45%)`;
+        }
+
+        const safeWidth = container.clientWidth - 150;
+        element.style.left = Math.max(0, Math.random() * safeWidth) + 'px';
+        element.style.top = '-180px';
+        container.appendChild(element);
+
+        fallingElements.push({ el: element, y: -180, value: val, speed: 2.5 });
+        spawnTimer = setTimeout(spawnItem, 1600);
+    }
+
+    function gameLoop() {
+        if (!gameActive) return;
+        for (let i = fallingElements.length - 1; i >= 0; i--) {
+            const item = fallingElements[i];
+            item.y += item.speed;
+            item.el.style.top = item.y + 'px';
+            if (item.y > window.innerHeight) {
+                item.el.remove();
+                fallingElements.splice(i, 1);
+            }
+        }
+        requestAnimationFrame(gameLoop);
+    }
+
+    function checkMatch(value, btn) {
+        const idx = fallingElements.findIndex(i => i.value === value);
+        if (idx !== -1) {
+            const item = fallingElements[idx];
+            item.el.style.transform = "scale(1.8) rotate(15deg)";
+            item.el.style.opacity = "0";
+            
+            setTimeout(() => {
+                item.el.remove();
+            }, 200);
+
+            fallingElements.splice(idx, 1);
+            score++;
+            updateProgress();
+            
+            btn.style.transform = "scale(0.85)";
+            setTimeout(() => btn.style.transform = "scale(1)", 100);
+
+            if (score >= config.targets[currentMode]) {
+                gameActive = false;
+                document.getElementById('fanfare-overlay').style.display = 'flex';
+                setTimeout(() => {
+                    document.getElementById('fanfare-overlay').style.display = 'none';
+                    showMenu();
+                }, 3500);
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
