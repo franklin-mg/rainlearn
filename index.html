@@ -3,401 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rainy Learning - Uziel y Natito</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Rainy Learning - Tecnotips</title>
     <style>
         :root {
-            --bg-color: #f0f9ff;
-            --primary: #3b82f6;
-            --success: #22c55e;
-            --error: #ef4444;
-            --uziel-color: #4f46e5;
-            --natito-color: #ec4899;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-yellow: #eab308;
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         * {
             box-sizing: border-box;
             user-select: none;
+            touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
 
-        html, body {
-            height: 100%;
+        body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
-            background-color: var(--bg-color);
+            height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-
-        /* --- HEADER --- */
-        .header-main {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            background: white;
-            border-bottom: 4px solid #e2e8f0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 110;
-        }
-
-        .game-title {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin: 0;
-            text-shadow: 2px 2px 0px #bfdbfe;
-        }
-
-        /* --- INITIAL MENU --- */
-        #menu-screen {
-            position: absolute;
-            top: 74px;
-            bottom: 40px;
-            left: 0;
-            right: 0;
-            background: white;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .menu-row-main {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1100px;
-            padding: 0 20px;
-        }
-
-        .side-photo {
-            width: 180px; 
-            height: 180px; 
-            border-radius: 50%;
-            border: 10px solid white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            font-family: var(--font-family);
+            background-color: var(--bg-main);
             overflow: hidden;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-        .side-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .photo-uziel { border-color: var(--uziel-color); }
-        .photo-natito { border-color: var(--natito-color); }
-
-        .menu-buttons-center {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            flex: 1;
-            align-items: center;
+            color: var(--text-dark);
         }
 
-        .menu-btn {
-            width: 90%;
-            max-width: 450px;
-            padding: 25px;
-            border: none;
-            border-radius: 30px;
-            font-size: 2rem;
-            font-weight: 900;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 8px 0 rgba(0,0,0,0.2);
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-        .menu-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-        }
-
-        .btn-letters { background: #ff6b6b; border-bottom: 8px solid #ee5253; }
-        .btn-numbers { background: #4ecdc4; border-bottom: 8px solid #45b7af; }
-        .btn-colors { background: #ffbe0b; border-bottom: 8px solid #f9a825; }
-
-        /* --- GAME AREA --- */
-        #game-area {
-            flex: 1;
-            position: relative;
-            background: linear-gradient(to bottom, #e0f2fe, #f0f9ff);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-        }
-
-        #rain-container {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 65%; 
-            max-width: 750px;
-            pointer-events: none;
-        }
-
-        .falling-item {
-            position: absolute;
-            font-size: 7.5rem; 
-            font-weight: 900;
-            filter: drop-shadow(4px 4px 0 white);
-            pointer-events: auto;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        /* --- KEYBOARD --- */
-        #keyboard-container {
-            flex-shrink: 0;
-            height: 220px;
-            background: #f1f5f9;
-            border-top: 4px solid #e2e8f0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 15px;
-            gap: 12px;
-            overflow-y: auto;
-        }
-
-        .key {
-            width: 75px;
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border: 3px solid #cbd5e1;
-            border-radius: 18px;
-            font-weight: bold;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 0 #cbd5e1;
-            cursor: pointer;
-        }
-        .key:active { transform: translateY(2px); box-shadow: none; }
-
-        /* --- FOOTER --- */
-        footer {
-            flex-shrink: 0;
-            height: 40px;
-            background: #1e293b;
-            color: white;
+        /* --- Cabecera --- */
+        header {
+            height: 65px;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 25px;
-            font-size: 0.9rem;
-            z-index: 120;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            z-index: 10;
         }
 
-        #back-btn { position: absolute; top: 15px; left: 15px; z-index: 60; padding: 12px 25px; border-radius: 15px; border: 3px solid #3b82f6; background: white; font-weight: bold; color: #3b82f6; cursor: pointer; font-size: 1.1rem; }
-        #progress-counter { position: absolute; top: 15px; right: 15px; z-index: 60; background: #3b82f6; color: white; padding: 10px 25px; border-radius: 15px; font-weight: bold; font-size: 1.4rem; }
+        .header-left {
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        #fanfare-overlay {
-            display: none;
-            position: fixed;
+        .header-right {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+            font-style: italic;
+        }
+
+        #game-area {
+            flex: 1;
+            position: relative;
+            background: white;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Pantalla de Inicio --- */
+        #menu-overlay {
+            position: absolute;
             inset: 0;
-            z-index: 200;
-            background: rgba(255,255,255,0.95);
+            background: white;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .side-photo {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 30px;
+            border: 6px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .side-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-content {
+            display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 15px;
+            max-width: 320px;
             text-align: center;
         }
 
-        @media (max-width: 768px) {
-            #rain-container { width: 85%; }
-            .side-photo { width: 110px; height: 110px; border-width: 6px; }
-            .menu-btn { font-size: 1.5rem; padding: 18px; }
-            .falling-item { font-size: 5.5rem; }
+        .mode-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.1s;
+            text-transform: uppercase;
+        }
+
+        .mode-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+        }
+
+        /* --- Elementos cayendo --- */
+        .falling-item {
+            position: absolute;
+            font-size: 3.5rem;
+            font-weight: 900;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .color-drop {
+            width: 65px;
+            height: 65px;
+            border-radius: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- Teclado --- */
+        #keyboard {
+            height: 220px;
+            background: #f8fafc;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            padding: 15px;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        .key {
+            aspect-ratio: 1/1;
+            background: white;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            box-shadow: 0 4px 0 #e2e8f0;
+            cursor: pointer;
+            border: 1px solid #f1f5f9;
+            color: #334155;
+        }
+
+        .key:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #e2e8f0;
+        }
+
+        /* --- UI Flotante --- */
+        #score-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #1e293b;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 800;
+            z-index: 20;
+            font-size: 1rem;
+        }
+
+        #exit-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            z-index: 20;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        /* --- Pie de Página --- */
+        footer {
+            height: 45px;
+            background: #0f172a;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            gap: 5px;
+        }
+
+        footer strong {
+            color: #f8fafc;
+        }
+
+        @media (max-width: 650px) {
+            #menu-overlay {
+                flex-direction: column;
+                justify-content: center;
+                gap: 20px;
+            }
+            .side-photo {
+                width: 110px;
+                height: 110px;
+            }
+            .header-left, .header-right { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-<header class="header-main">
-    <h1 class="game-title">⭐ RAINY LEARNING ⭐</h1>
+<header>
+    <div class="header-left">Gamers FM</div>
+    <div class="header-right">RainLearn</div>
 </header>
 
-<div id="menu-screen">
-    <div class="menu-row-main">
-        <div class="side-photo photo-uziel">
-            <!-- Imagen local actualizada -->
-            <img src="uziel.png" alt="Uziel">
-        </div>
-
-        <div class="menu-buttons-center">
-            <button class="menu-btn btn-letters" onclick="startGame('letters')">LETRAS</button>
-            <button class="menu-btn btn-numbers" onclick="startGame('numbers')">NÚMEROS</button>
-            <button class="menu-btn btn-colors" onclick="startGame('colors')">COLORES</button>
-        </div>
-
-        <div class="side-photo photo-natito">
-            <!-- Imagen local actualizada -->
-            <img src="natito.png" alt="Natito">
-        </div>
-    </div>
-</div>
-
 <div id="game-area">
-    <button id="back-btn" onclick="showMenu()">↩ VOLVER</button>
-    <div id="progress-counter">0 / 15</div>
+    <!-- Pantalla Inicial -->
+    <div id="menu-overlay">
+        <img src="uziel.png" alt="Uziel" class="side-photo" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Uziel'">
+        
+        <div class="menu-content">
+            <h2 style="color: #334155; margin-bottom: 10px; font-size: 1.4rem;">¡Hola! Elige un juego</h2>
+            <button class="mode-btn" style="background: var(--accent-red)" onclick="startGame('letters')">Letras</button>
+            <button class="mode-btn" style="background: var(--accent-green)" onclick="startGame('numbers')">Números</button>
+            <button class="mode-btn" style="background: var(--accent-yellow)" onclick="startGame('colors')">Colores</button>
+        </div>
+
+        <img src="natito.png" alt="Natito" class="side-photo" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Natito'">
+    </div>
+
+    <button id="exit-btn" style="display:none" onclick="stopGame()">SALIR</button>
+    <div id="score-tag" style="display:none">PUNTOS: 0</div>
+    
     <div id="rain-container"></div>
 </div>
 
-<div id="keyboard-container"></div>
-
-<div id="fanfare-overlay">
-    <div style="font-size: 6rem; margin-bottom: 20px;">🏆</div>
-    <h1 style="font-size: 3.5rem; color: #1e293b; margin: 0;">¡EXCELENTE TRABAJO! 🎉</h1>
-    <p style="font-size: 2rem; color: #64748b;">Uziel y Natito están felices</p>
-</div>
+<div id="keyboard"></div>
 
 <footer>
-    <div class="footer-left">TecnoTips ©</div>
-    <div class="footer-right">Abuelito Franklin</div>
+    Tecnotips &copy; - Desarrollado para <strong>Uziel y Natito (Abuelito)</strong>
 </footer>
 
 <script>
     const config = {
         letters: "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split(""),
         numbers: "0123456789".split(""),
-        colors: [ { name: "Rojo", hex: "#ef4444" }, { name: "Azul", hex: "#3b82f6" }, { name: "Verde", hex: "#22c55e" }, { name: "Amarillo", hex: "#fbbf24" }, { name: "Rosa", hex: "#ec4899" }, { name: "Naranja", hex: "#f97316" }, { name: "Morado", hex: "#a855f7" }, { name: "Blanco", hex: "#ffffff" }, { name: "Negro", hex: "#000000" }, { name: "Marrón", hex: "#8b4513" } ],
-        targets: { letters: 12, numbers: 8, colors: 6 }
+        colors: [
+            { name: "Rojo", hex: "#ef4444" }, { name: "Azul", hex: "#3b82f6" }, { name: "Verde", hex: "#22c55e" }, { name: "Amarillo", hex: "#fbbf24" }, { name: "Rosa", hex: "#ec4899" }, { name: "Naranja", hex: "#f97316" }, { name: "Morado", hex: "#a855f7" }, { name: "Blanco", hex: "#ffffff" }, { name: "Negro", hex: "#000000" }, { name: "Marrón", hex: "#8b4513" }
+        ]
     };
 
-    let currentMode = "";
-    let fallingElements = [];
-    let gameActive = false;
-    let score = 0;
-    let spawnTimer;
+    let items = [];
+    let state = { playing: false, mode: '', score: 0 };
+    let lastTime = 0;
+    let spawnInterval = 1700;
 
     function startGame(mode) {
-        currentMode = mode;
-        gameActive = true;
-        score = 0;
-        updateProgress();
-        document.getElementById('menu-screen').style.display = 'none';
-        renderKeyboard();
-        spawnItem();
+        state.playing = true;
+        state.mode = mode;
+        state.score = 0;
+        items = [];
+        
+        document.getElementById('menu-overlay').style.display = 'none';
+        document.getElementById('exit-btn').style.display = 'block';
+        document.getElementById('score-tag').style.display = 'block';
+        document.getElementById('rain-container').innerHTML = '';
+        
+        updateScore();
+        buildKeyboard();
         requestAnimationFrame(gameLoop);
     }
 
-    function showMenu() {
-        gameActive = false;
-        clearTimeout(spawnTimer);
-        document.getElementById('menu-screen').style.display = 'flex';
+    function stopGame() {
+        state.playing = false;
+        document.getElementById('menu-overlay').style.display = 'flex';
+        document.getElementById('exit-btn').style.display = 'none';
+        document.getElementById('score-tag').style.display = 'none';
+        document.getElementById('keyboard').innerHTML = '';
         document.getElementById('rain-container').innerHTML = '';
-        fallingElements = [];
     }
 
-    function updateProgress() {
-        document.getElementById('progress-counter').innerText = `${score} / ${config.targets[currentMode]}`;
-    }
+    function buildKeyboard() {
+        const kb = document.getElementById('keyboard');
+        kb.innerHTML = '';
+        const data = config[state.mode];
 
-    function renderKeyboard() {
-        const container = document.getElementById('keyboard-container');
-        container.innerHTML = "";
-        let items = currentMode === 'colors' ? config.colors : config[currentMode];
-
-        items.forEach(item => {
-            const btn = document.createElement('div');
-            btn.className = 'key';
-            if (currentMode === 'colors') {
-                btn.style.backgroundColor = item.hex;
-                btn.dataset.value = item.hex;
-                btn.style.borderColor = "white";
+        data.forEach(val => {
+            const key = document.createElement('div');
+            key.className = 'key';
+            
+            if (state.mode === 'colors') {
+                key.style.backgroundColor = val.hex;
+                key.style.border = "4px solid white";
+                key.onclick = () => check(val.hex);
             } else {
-                btn.innerText = item;
-                btn.dataset.value = item;
+                key.innerText = val;
+                key.onclick = () => check(val);
             }
-            btn.onclick = () => checkMatch(btn.dataset.value, btn);
-            container.appendChild(btn);
+            kb.appendChild(key);
         });
     }
 
-    function spawnItem() {
-        if (!gameActive) return;
+    function createItem() {
         const container = document.getElementById('rain-container');
-        const element = document.createElement('div');
-        element.className = 'falling-item';
-
-        let val;
-        if (currentMode === 'colors') {
-            const c = config.colors[Math.floor(Math.random() * config.colors.length)];
-            element.style.width = "140px";
-            element.style.height = "140px";
-            element.style.borderRadius = "35px";
-            element.style.backgroundColor = c.hex;
-            element.style.border = "10px solid white";
-            val = c.hex;
+        const data = config[state.mode];
+        const selection = data[Math.floor(Math.random() * data.length)];
+        
+        const el = document.createElement('div');
+        el.className = 'falling-item';
+        
+        let value;
+        if (state.mode === 'colors') {
+            el.classList.add('color-drop');
+            el.style.backgroundColor = selection.hex;
+            value = selection.hex;
         } else {
-            val = config[currentMode][Math.floor(Math.random() * config[currentMode].length)];
-            element.innerText = val;
-            element.style.color = `hsl(${Math.random() * 360}, 75%, 45%)`;
+            el.innerText = selection;
+            el.style.color = `hsl(${Math.random() * 360}, 65%, 45%)`;
+            value = selection;
         }
 
-        const safeWidth = container.clientWidth - 150;
-        element.style.left = Math.max(0, Math.random() * safeWidth) + 'px';
-        element.style.top = '-180px';
-        container.appendChild(element);
+        const x = Math.random() * (container.clientWidth - 70);
+        el.style.left = x + 'px';
+        el.style.top = '-100px';
+        container.appendChild(el);
 
-        fallingElements.push({ el: element, y: -180, value: val, speed: 2.5 });
-        spawnTimer = setTimeout(spawnItem, 1600);
+        items.push({ el, y: -100, val: value, speed: 1.8 + Math.random() * 2.2 });
     }
 
-    function gameLoop() {
-        if (!gameActive) return;
-        for (let i = fallingElements.length - 1; i >= 0; i--) {
-            const item = fallingElements[i];
+    function gameLoop(time) {
+        if (!state.playing) return;
+
+        if (time - lastTime > spawnInterval) {
+            createItem();
+            lastTime = time;
+        }
+
+        const height = document.getElementById('game-area').clientHeight;
+        
+        for (let i = items.length - 1; i >= 0; i--) {
+            const item = items[i];
             item.y += item.speed;
             item.el.style.top = item.y + 'px';
-            if (item.y > window.innerHeight) {
+
+            if (item.y > height) {
                 item.el.remove();
-                fallingElements.splice(i, 1);
+                items.splice(i, 1);
             }
         }
+
         requestAnimationFrame(gameLoop);
     }
 
-    function checkMatch(value, btn) {
-        const idx = fallingElements.findIndex(i => i.value === value);
-        if (idx !== -1) {
-            const item = fallingElements[idx];
-            item.el.style.transform = "scale(1.8) rotate(15deg)";
+    function check(pressed) {
+        const index = items.findIndex(i => i.val === pressed);
+        if (index !== -1) {
+            const item = items[index];
+            item.el.style.transition = "all 0.2s ease";
+            item.el.style.transform = "scale(1.5) rotate(20deg)";
             item.el.style.opacity = "0";
             
-            setTimeout(() => {
-                item.el.remove();
-            }, 200);
+            setTimeout(() => item.el.remove(), 200);
 
-            fallingElements.splice(idx, 1);
-            score++;
-            updateProgress();
+            items.splice(index, 1);
+            state.score++;
+            updateScore();
             
-            btn.style.transform = "scale(0.85)";
-            setTimeout(() => btn.style.transform = "scale(1)", 100);
-
-            if (score >= config.targets[currentMode]) {
-                gameActive = false;
-                document.getElementById('fanfare-overlay').style.display = 'flex';
-                setTimeout(() => {
-                    document.getElementById('fanfare-overlay').style.display = 'none';
-                    showMenu();
-                }, 3500);
-            }
+            // Efecto visual de tecla presionada
+            event.target.style.backgroundColor = "#e2e8f0";
+            setTimeout(() => event.target.style.backgroundColor = state.mode === 'colors' ? pressed : "white", 100);
         }
     }
-</script>
 
+    function updateScore() {
+        document.getElementById('score-tag').innerText = `PUNTOS: ${state.score}`;
+    }
+</script>
 </body>
 </html>
