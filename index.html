@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rainy Learning - Tecnotips</title>
+    <title>Rainy Learning - Círculos de Colores</title>
     <style>
         :root {
             --bg-main: #f8fafc;
@@ -35,9 +35,9 @@
             color: var(--text-dark);
         }
 
-        /* --- Cabecera --- */
+        /* --- Header --- */
         header {
-            height: 60px;
+            height: 50px;
             background: #ffffff;
             display: flex;
             align-items: center;
@@ -50,19 +50,19 @@
 
         .header-left {
             font-weight: 900;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #475569;
             text-transform: uppercase;
         }
 
         .header-right {
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--accent-blue);
             font-style: italic;
         }
 
-        /* --- Área de Juego --- */
+        /* --- Game Area --- */
         #game-area {
             flex: 1;
             position: relative;
@@ -84,8 +84,8 @@
         }
 
         .side-photo {
-            width: 25%;
-            max-width: 140px;
+            width: 20%;
+            max-width: 120px;
             aspect-ratio: 1/1;
             object-fit: cover;
             border-radius: 20px;
@@ -98,15 +98,15 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
-            width: 40%;
+            width: 45%;
         }
 
         .mode-btn {
             width: 100%;
-            padding: 15px 5px;
+            padding: 18px 5px;
             border: none;
             border-radius: 12px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: white;
             box-shadow: 0 4px 0 rgba(0,0,0,0.15);
@@ -114,60 +114,75 @@
             text-transform: uppercase;
         }
 
-        /* --- Elementos Cayendo --- */
+        /* --- Falling Elements --- */
         .falling-item {
             position: absolute;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 900;
             pointer-events: none;
             z-index: 2;
-            transition: transform 0.1s linear;
         }
 
+        /* Round color drop design */
         .color-drop {
-            width: 55px;
-            height: 55px;
-            border-radius: 15px;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        /* --- Teclado Adaptable --- */
+        /* --- Responsive Keyboard --- */
         #keyboard {
-            height: 280px; /* Altura optimizada para pantallas móviles */
+            height: 35vh;
             background: #f1f5f9;
             display: grid;
             gap: 8px;
-            padding: 12px;
-            border-top: 2px solid #e2e8f0;
+            padding: 10px;
+            border-top: 3px solid #cbd5e1;
             flex-shrink: 0;
-            overflow-y: auto;
         }
 
-        .kb-letters { grid-template-columns: repeat(7, 1fr); }
-        .kb-numbers { grid-template-columns: repeat(5, 1fr); }
-        .kb-colors { grid-template-columns: repeat(3, 1fr); }
+        .kb-letters { grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(4, 1fr); }
+        .kb-numbers { grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); }
+        .kb-colors { 
+            grid-template-columns: repeat(3, 1fr); 
+            grid-template-rows: repeat(3, 1fr); 
+            place-items: center; 
+        }
 
         .key {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            box-shadow: 0 3px 0 #cbd5e1;
+            box-shadow: 0 4px 0 #cbd5e1;
             cursor: pointer;
             border: 1px solid #e2e8f0;
-            min-height: 50px;
+            transition: transform 0.05s;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Circle keys for colors mode */
+        .key-circle {
+            border-radius: 50% !important;
+            aspect-ratio: 1/1;
+            width: auto !important;
+            max-height: 90%;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2) !important;
         }
 
         .key:active {
             transform: translateY(2px);
-            box-shadow: 0 1px 0 #cbd5e1;
+            box-shadow: 0 2px 0 #cbd5e1;
         }
 
-        /* --- UI de Juego --- */
+        /* --- UI Components --- */
         #score-tag {
             position: absolute;
             top: 15px;
@@ -192,29 +207,27 @@
             font-weight: 800;
             z-index: 20;
             cursor: pointer;
-            color: #64748b;
+            color: #ef4444;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* --- Pie de Página --- */
         footer {
-            height: 40px;
+            height: 30px;
             background: #0f172a;
             color: #94a3b8;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
-            padding: 0 10px;
-            text-align: center;
+            font-size: 1.1rem;
             flex-shrink: 0;
         }
 
-        footer strong { color: #f8fafc; margin-left: 4px; }
-
-        @media (max-width: 400px) {
-            .kb-letters { grid-template-columns: repeat(6, 1fr); }
-            #keyboard { height: 300px; }
-            .falling-item { font-size: 2.5rem; }
+        @media (max-width: 480px) {
+            .kb-letters { grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(5, 1fr); }
+            #keyboard { height: 40vh; }
+            .falling-item { font-size: 2.8rem; }
+            .color-drop { width: 55px; height: 55px; }
+            .key-circle { max-height: 85%; }
         }
     </style>
 </head>
@@ -227,16 +240,15 @@
 
 <div id="game-area">
     <div id="menu-overlay">
-        <img src="uziel.png" alt="Uziel" class="side-photo" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Uziel'">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Uziel" alt="Uziel" class="side-photo">
         <div class="menu-content">
             <button class="mode-btn" style="background: var(--accent-red)" onclick="startGame('letters')">Letras</button>
             <button class="mode-btn" style="background: var(--accent-green)" onclick="startGame('numbers')">Números</button>
             <button class="mode-btn" style="background: var(--accent-yellow)" onclick="startGame('colors')">Colores</button>
         </div>
-        <img src="natito.png" alt="Natito" class="side-photo" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Natito'">
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Natito" alt="Natito" class="side-photo">
     </div>
 
-    <!-- Botón actualizado a "REGRESAR" -->
     <button id="exit-btn" style="display:none" onclick="stopGame()">REGRESAR</button>
     <div id="score-tag" style="display:none">PUNTOS: 0</div>
     <div id="rain-container"></div>
@@ -245,7 +257,7 @@
 <div id="keyboard"></div>
 
 <footer>
-    Tecnotips &copy; - Desarrollado para <strong>Uziel y Natito (Abuelito)</strong>
+    Tecnotips &copy; - Hecho para Uziel y Natito
 </footer>
 
 <script>
@@ -257,20 +269,32 @@
             { name: "Verde", hex: "#22c55e" }, { name: "Amarillo", hex: "#eab308" },
             { name: "Naranja", hex: "#f97316" }, { name: "Rosa", hex: "#ec4899" },
             { name: "Morado", hex: "#a855f7" }, { name: "Cian", hex: "#06b6d4" },
-            { name: "Gris", hex: "#64748b" }
+            { name: "Negro", hex: "#000000" }
         ]
     };
 
     let items = [];
     let state = { playing: false, mode: '', score: 0 };
     let lastTime = 0;
-    let spawnInterval = 1800;
+    
+    // Adjusted speeds for easier gameplay
+    let spawnInterval = 1800; // Time between new items
+    let baseSpeed = 1.2;      // Base downward speed
 
     function startGame(mode) {
         state.playing = true;
         state.mode = mode;
         state.score = 0;
         items = [];
+        
+        // Slower configuration for colors mode
+        if (mode === 'colors') {
+            baseSpeed = 1.1; 
+            spawnInterval = 2000;
+        } else {
+            baseSpeed = 1.5;
+            spawnInterval = 1600;
+        }
         
         document.getElementById('menu-overlay').style.display = 'none';
         document.getElementById('exit-btn').style.display = 'block';
@@ -304,12 +328,13 @@
             key.className = 'key';
             
             if (state.mode === 'colors') {
+                key.classList.add('key-circle');
                 key.style.backgroundColor = val.hex;
-                key.style.border = "3px solid white";
-                key.onclick = (e) => check(val.hex, e.target);
+                key.style.border = "4px solid white";
+                key.onclick = () => check(val.hex, key);
             } else {
                 key.innerText = val;
-                key.onclick = (e) => check(val, e.target);
+                key.onclick = () => check(val, key);
             }
             kb.appendChild(key);
         });
@@ -330,16 +355,18 @@
             value = selection.hex;
         } else {
             el.innerText = selection;
-            el.style.color = `hsl(${Math.random() * 360}, 70%, 50%)`;
+            el.style.color = `hsl(${Math.random() * 360}, 75%, 45%)`;
             value = selection;
         }
 
-        const x = Math.random() * (window.innerWidth - 60);
+        const areaWidth = container.clientWidth;
+        const x = Math.random() * (areaWidth - 80);
         el.style.left = Math.max(10, x) + 'px';
-        el.style.top = '-80px';
+        el.style.top = '-100px';
         container.appendChild(el);
 
-        items.push({ el, y: -80, val: value, speed: 1.5 + Math.random() * 1.5 });
+        // Lower random variation for smoother, predictable falling
+        items.push({ el, y: -100, val: value, speed: baseSpeed + Math.random() * 0.8 });
     }
 
     function gameLoop(time) {
@@ -366,7 +393,7 @@
         requestAnimationFrame(gameLoop);
     }
 
-    function check(pressed, target) {
+    function check(pressed, keyElement) {
         let foundIdx = -1;
         let maxY = -Infinity;
 
@@ -379,19 +406,18 @@
 
         if (foundIdx !== -1) {
             const item = items[foundIdx];
-            item.el.style.transition = "all 0.3s ease-out";
-            item.el.style.transform += " scale(1.8)";
+            item.el.style.transition = "all 0.25s ease-out";
+            item.el.style.transform += " scale(2)";
             item.el.style.opacity = "0";
             
-            setTimeout(() => item.el.remove(), 300);
+            setTimeout(() => item.el.remove(), 250);
             items.splice(foundIdx, 1);
             
             state.score++;
             updateScore();
             
-            const originalBg = target.style.backgroundColor;
-            target.style.backgroundColor = "#cbd5e1";
-            setTimeout(() => target.style.backgroundColor = originalBg, 150);
+            keyElement.style.transform = "scale(0.9) translateY(4px)";
+            setTimeout(() => keyElement.style.transform = "", 100);
         }
     }
 
