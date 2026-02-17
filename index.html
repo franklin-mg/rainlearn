@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RainLearn - Uziel y Natito</title>
+    
+    <!-- 1. LLAMADO AL MANIFEST.JSON (AQUÍ SE HACE) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="apple-touch-icon" href="https://api.dicebear.com/7.x/bottts/png?seed=RainLearn&size=192">
+
     <style>
         :root {
             --bg-main: #f8fafc;
@@ -117,7 +123,6 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        /* Keyboard Styles */
         #keyboard {
             height: 35vh;
             background: #f1f5f9;
@@ -180,7 +185,6 @@
             color: #ef4444;
         }
 
-        /* Celebration Styles */
         #celebration-overlay {
             position: absolute;
             inset: 0;
@@ -317,7 +321,7 @@
     function buildKeyboard() {
         const kb = document.getElementById('keyboard');
         kb.innerHTML = '';
-        kb.className = ''; // Reset classes
+        kb.className = ''; 
         kb.classList.add('kb-' + state.mode);
         
         const data = config[state.mode].data;
@@ -391,7 +395,6 @@
         let foundIdx = -1;
         let maxY = -Infinity;
 
-        // Find the lowest matching item
         items.forEach((item, idx) => {
             if (item.val === pressed && item.y > maxY) { 
                 maxY = item.y; 
@@ -410,7 +413,6 @@
             state.score++;
             updateScore();
             
-            // Visual feedback on key
             keyElement.style.transform = "scale(0.9)";
             setTimeout(() => keyElement.style.transform = "", 100);
 
@@ -428,10 +430,7 @@
         state.playing = false;
         const overlay = document.getElementById('celebration-overlay');
         overlay.style.display = 'flex';
-        
         startConfetti();
-        
-        // Auto-close celebration after 3 seconds as requested
         setTimeout(() => {
             stopGame();
         }, 3000);
@@ -461,7 +460,6 @@
 
         function draw() {
             if (document.getElementById('celebration-overlay').style.display !== 'flex') return;
-            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach((p, i) => {
                 ctx.beginPath();
@@ -470,11 +468,9 @@
                 ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
                 ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
                 ctx.stroke();
-                
                 p.y += p.speedY;
                 p.tilt = Math.sin(p.d) * 15;
                 p.d += 0.1;
-
                 if (p.y > canvas.height) {
                     p.y = -20;
                     p.x = Math.random() * canvas.width;
@@ -483,6 +479,15 @@
             requestAnimationFrame(draw);
         }
         draw();
+    }
+
+    // 2. LLAMADO AL SERVICE WORKER (AQUÍ SE REGISTRA)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('Service Worker registrado', reg))
+                .catch(err => console.log('Error al registrar SW', err));
+        });
     }
 </script>
 </body>
