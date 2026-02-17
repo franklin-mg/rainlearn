@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rainy Learning - Círculos de Colores</title>
+    <title>Rainy Learning - Uziel y Natito</title>
     <style>
         :root {
             --bg-main: #f8fafc;
@@ -84,13 +84,14 @@
         }
 
         .side-photo {
-            width: 20%;
-            max-width: 120px;
+            width: 25%;
+            max-width: 150px;
             aspect-ratio: 1/1;
             object-fit: cover;
             border-radius: 20px;
             border: 4px solid #e2e8f0;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: #f1f5f9;
         }
 
         .menu-content {
@@ -98,7 +99,7 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
-            width: 45%;
+            width: 40%;
         }
 
         .mode-btn {
@@ -123,7 +124,6 @@
             z-index: 2;
         }
 
-        /* Round color drop design */
         .color-drop {
             width: 65px;
             height: 65px;
@@ -132,7 +132,7 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        /* --- Responsive Keyboard --- */
+        /* --- Keyboard --- */
         #keyboard {
             height: 35vh;
             background: #f1f5f9;
@@ -168,7 +168,6 @@
             height: 100%;
         }
 
-        /* Circle keys for colors mode */
         .key-circle {
             border-radius: 50% !important;
             aspect-ratio: 1/1;
@@ -218,7 +217,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 0.7rem;
             flex-shrink: 0;
         }
 
@@ -234,19 +233,28 @@
 <body>
 
 <header>
-    <div class="header-left">Gamers FM</div>
+    <div class="header-left">Gamers FM - Aprendizaje</div>
     <div class="header-right">RainLearn</div>
 </header>
 
 <div id="game-area">
     <div id="menu-overlay">
-        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Uziel" alt="Uziel" class="side-photo">
+        <!-- Fotos de Uziel y Natito desde el repositorio de GitHub -->
+        <img src="https://raw.githubusercontent.com/Tecnotips/tecnofm/main/uziel.jpg" 
+             alt="Uziel" 
+             class="side-photo" 
+             onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Uziel'">
+        
         <div class="menu-content">
             <button class="mode-btn" style="background: var(--accent-red)" onclick="startGame('letters')">Letras</button>
             <button class="mode-btn" style="background: var(--accent-green)" onclick="startGame('numbers')">Números</button>
             <button class="mode-btn" style="background: var(--accent-yellow)" onclick="startGame('colors')">Colores</button>
         </div>
-        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Natito" alt="Natito" class="side-photo">
+
+        <img src="https://raw.githubusercontent.com/Tecnotips/tecnofm/main/natito.jpg" 
+             alt="Natito" 
+             class="side-photo" 
+             onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Natito'">
     </div>
 
     <button id="exit-btn" style="display:none" onclick="stopGame()">REGRESAR</button>
@@ -277,9 +285,9 @@
     let state = { playing: false, mode: '', score: 0 };
     let lastTime = 0;
     
-    // Adjusted speeds for easier gameplay
-    let spawnInterval = 1800; // Time between new items
-    let baseSpeed = 1.2;      // Base downward speed
+    // Variables de velocidad
+    let spawnInterval = 1800; 
+    let baseSpeed = 1.2;
 
     function startGame(mode) {
         state.playing = true;
@@ -287,10 +295,10 @@
         state.score = 0;
         items = [];
         
-        // Slower configuration for colors mode
+        // Ajuste de velocidad lenta para Colores
         if (mode === 'colors') {
             baseSpeed = 1.1; 
-            spawnInterval = 2000;
+            spawnInterval = 2100; // Un poco más lento para dar tiempo
         } else {
             baseSpeed = 1.5;
             spawnInterval = 1600;
@@ -365,8 +373,7 @@
         el.style.top = '-100px';
         container.appendChild(el);
 
-        // Lower random variation for smoother, predictable falling
-        items.push({ el, y: -100, val: value, speed: baseSpeed + Math.random() * 0.8 });
+        items.push({ el, y: -100, val: value, speed: baseSpeed + Math.random() * 0.7 });
     }
 
     function gameLoop(time) {
