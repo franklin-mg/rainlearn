@@ -35,7 +35,6 @@
             color: var(--text-dark);
         }
 
-        /* --- Header --- */
         header {
             height: 50px;
             background: #ffffff;
@@ -48,21 +47,9 @@
             flex-shrink: 0;
         }
 
-        .header-left {
-            font-weight: 900;
-            font-size: 0.9rem;
-            color: #475569;
-            text-transform: uppercase;
-        }
+        .header-left { font-weight: 900; font-size: 0.9rem; color: #475569; text-transform: uppercase; }
+        .header-right { font-weight: 800; font-size: 1rem; color: var(--accent-blue); font-style: italic; }
 
-        .header-right {
-            font-weight: 800;
-            font-size: 1rem;
-            color: var(--accent-blue);
-            font-style: italic;
-        }
-
-        /* --- Game Area --- */
         #game-area {
             flex: 1;
             position: relative;
@@ -91,7 +78,6 @@
             border-radius: 20px;
             border: 4px solid #e2e8f0;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            background-color: #f1f5f9;
         }
 
         .menu-content {
@@ -115,7 +101,6 @@
             text-transform: uppercase;
         }
 
-        /* --- Falling Elements --- */
         .falling-item {
             position: absolute;
             font-size: 3.5rem;
@@ -125,14 +110,14 @@
         }
 
         .color-drop {
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             border: 4px solid #fff;
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        /* --- Keyboard --- */
+        /* Keyboard Styles */
         #keyboard {
             height: 35vh;
             background: #f1f5f9;
@@ -143,13 +128,9 @@
             flex-shrink: 0;
         }
 
-        .kb-letters { grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(4, 1fr); }
-        .kb-numbers { grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); }
-        .kb-colors { 
-            grid-template-columns: repeat(3, 1fr); 
-            grid-template-rows: repeat(3, 1fr); 
-            place-items: center; 
-        }
+        .kb-letters { grid-template-columns: repeat(7, 1fr); }
+        .kb-numbers { grid-template-columns: repeat(5, 1fr); }
+        .kb-colors { grid-template-columns: repeat(3, 1fr); }
 
         .key {
             background: white;
@@ -163,25 +144,17 @@
             cursor: pointer;
             border: 1px solid #e2e8f0;
             transition: transform 0.05s;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
+            min-height: 50px;
         }
 
-        .key-circle {
-            border-radius: 50% !important;
-            aspect-ratio: 1/1;
-            width: auto !important;
-            max-height: 90%;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.2) !important;
+        .key-circle { 
+            border-radius: 50% !important; 
+            width: 60px;
+            height: 60px;
+            margin: auto;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2) !important; 
         }
 
-        .key:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #cbd5e1;
-        }
-
-        /* --- UI Components --- */
         #score-tag {
             position: absolute;
             top: 15px;
@@ -192,42 +165,62 @@
             border-radius: 20px;
             font-weight: 800;
             z-index: 20;
-            font-size: 0.9rem;
         }
 
         #exit-btn {
             position: absolute;
             top: 15px;
             left: 15px;
-            background: #ffffff;
+            background: white;
             border: 2px solid #e2e8f0;
             padding: 8px 15px;
             border-radius: 10px;
             font-weight: 800;
             z-index: 20;
-            cursor: pointer;
             color: #ef4444;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        footer {
-            height: 30px;
-            background: #0f172a;
-            color: #94a3b8;
-            display: flex;
+        /* Celebration Styles */
+        #celebration-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.95);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.0rem;
-            flex-shrink: 0;
+            text-align: center;
         }
 
-        @media (max-width: 480px) {
-            .kb-letters { grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(5, 1fr); }
-            #keyboard { height: 40vh; }
-            .falling-item { font-size: 2.8rem; }
-            .color-drop { width: 55px; height: 55px; }
-            .key-circle { max-height: 85%; }
+        .congrats-text {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #1e293b;
+            margin: 20px;
+            animation: bounce 0.6s infinite alternate;
+            z-index: 202;
         }
+
+        .names-highlight {
+            color: var(--accent-blue);
+            display: block;
+            font-size: 2.8rem;
+        }
+
+        #confetti-canvas {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 201;
+        }
+
+        @keyframes bounce {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        footer { height: 30px; background: #0f172a; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -239,22 +232,21 @@
 
 <div id="game-area">
     <div id="menu-overlay">
-        <!-- Fotos de Uziel y Natito desde el repositorio de GitHub -->
-        <img src="uziel.png" 
-             alt="Uziel" 
-             class="side-photo" 
-             onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Uziel'">
-        
+        <img src="uziel.png" alt="Uziel" class="side-photo" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Uziel'">
         <div class="menu-content">
             <button class="mode-btn" style="background: var(--accent-red)" onclick="startGame('letters')">Letras</button>
             <button class="mode-btn" style="background: var(--accent-green)" onclick="startGame('numbers')">Números</button>
             <button class="mode-btn" style="background: var(--accent-yellow)" onclick="startGame('colors')">Colores</button>
         </div>
+        <img src="natito.png" alt="Natito" class="side-photo" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Natito'">
+    </div>
 
-        <img src="natito.png" 
-             alt="Natito" 
-             class="side-photo" 
-             onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Natito'">
+    <div id="celebration-overlay">
+        <div class="congrats-text">
+            ¡<span class="names-highlight">Uziel y Natito</span>!
+            <br>felicitaciones 🥳
+        </div>
+        <canvas id="confetti-canvas"></canvas>
     </div>
 
     <button id="exit-btn" style="display:none" onclick="stopGame()">REGRESAR</button>
@@ -264,30 +256,30 @@
 
 <div id="keyboard"></div>
 
-<footer>
-    Tecnotips &copy; - Hecho para Uziel y Natito
-</footer>
+<footer>Tecnotips &copy; - Hecho para Uziel y Natito</footer>
 
 <script>
     const config = {
-        letters: "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split(""),
-        numbers: "0123456789".split(""),
-        colors: [
-            { name: "Rojo", hex: "#ef4444" }, { name: "Azul", hex: "#3b82f6" },
-            { name: "Verde", hex: "#22c55e" }, { name: "Amarillo", hex: "#eab308" },
-            { name: "Naranja", hex: "#f97316" }, { name: "Rosa", hex: "#ec4899" },
-            { name: "Morado", hex: "#a855f7" }, { name: "Cian", hex: "#06b6d4" },
-            { name: "Negro", hex: "#000000" }
-        ]
+        letters: { data: "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split(""), goal: 12 },
+        numbers: { data: "0123456789".split(""), goal: 7 },
+        colors: { 
+            data: [
+                { name: "Rojo", hex: "#ef4444" }, { name: "Azul", hex: "#3b82f6" },
+                { name: "Verde", hex: "#22c55e" }, { name: "Amarillo", hex: "#eab308" },
+                { name: "Naranja", hex: "#f97316" }, { name: "Rosa", hex: "#ec4899" },
+                { name: "Morado", hex: "#a855f7" }, { name: "Cian", hex: "#06b6d4" },
+                { name: "Negro", hex: "#000000" }
+            ],
+            goal: 6
+        }
     };
 
     let items = [];
     let state = { playing: false, mode: '', score: 0 };
     let lastTime = 0;
-    
-    // Variables de velocidad
     let spawnInterval = 1800; 
     let baseSpeed = 1.2;
+    let animationId = null;
 
     function startGame(mode) {
         state.playing = true;
@@ -295,41 +287,40 @@
         state.score = 0;
         items = [];
         
-        // Ajuste de velocidad lenta para Colores
-        if (mode === 'colors') {
-            baseSpeed = 1.1; 
-            spawnInterval = 2100; // Un poco más lento para dar tiempo
-        } else {
-            baseSpeed = 1.5;
-            spawnInterval = 1600;
-        }
+        if (mode === 'colors') { baseSpeed = 1.0; spawnInterval = 2000; } 
+        else { baseSpeed = 1.4; spawnInterval = 1600; }
         
         document.getElementById('menu-overlay').style.display = 'none';
         document.getElementById('exit-btn').style.display = 'block';
         document.getElementById('score-tag').style.display = 'block';
+        document.getElementById('celebration-overlay').style.display = 'none';
         document.getElementById('rain-container').innerHTML = '';
         
         updateScore();
         buildKeyboard();
-        requestAnimationFrame(gameLoop);
+        lastTime = performance.now();
+        if (animationId) cancelAnimationFrame(animationId);
+        animationId = requestAnimationFrame(gameLoop);
     }
 
     function stopGame() {
         state.playing = false;
+        if (animationId) cancelAnimationFrame(animationId);
         document.getElementById('menu-overlay').style.display = 'flex';
         document.getElementById('exit-btn').style.display = 'none';
         document.getElementById('score-tag').style.display = 'none';
-        document.getElementById('keyboard').className = '';
         document.getElementById('keyboard').innerHTML = '';
         document.getElementById('rain-container').innerHTML = '';
+        document.getElementById('celebration-overlay').style.display = 'none';
     }
 
     function buildKeyboard() {
         const kb = document.getElementById('keyboard');
         kb.innerHTML = '';
-        kb.className = 'kb-' + state.mode;
+        kb.className = ''; // Reset classes
+        kb.classList.add('kb-' + state.mode);
         
-        const data = config[state.mode];
+        const data = config[state.mode].data;
 
         data.forEach(val => {
             const key = document.createElement('div');
@@ -338,7 +329,7 @@
             if (state.mode === 'colors') {
                 key.classList.add('key-circle');
                 key.style.backgroundColor = val.hex;
-                key.style.border = "4px solid white";
+                key.style.borderColor = "#ffffff";
                 key.onclick = () => check(val.hex, key);
             } else {
                 key.innerText = val;
@@ -349,10 +340,10 @@
     }
 
     function createItem() {
+        if (!state.playing) return;
         const container = document.getElementById('rain-container');
-        const data = config[state.mode];
+        const data = config[state.mode].data;
         const selection = data[Math.floor(Math.random() * data.length)];
-        
         const el = document.createElement('div');
         el.className = 'falling-item';
         
@@ -368,71 +359,131 @@
         }
 
         const areaWidth = container.clientWidth;
-        const x = Math.random() * (areaWidth - 80);
-        el.style.left = Math.max(10, x) + 'px';
-        el.style.top = '-100px';
+        el.style.left = Math.max(10, Math.random() * (areaWidth - 70)) + 'px';
+        el.style.top = '-80px';
         container.appendChild(el);
-
-        items.push({ el, y: -100, val: value, speed: baseSpeed + Math.random() * 0.7 });
+        items.push({ el, y: -80, val: value, speed: baseSpeed + Math.random() * 0.5 });
     }
 
     function gameLoop(time) {
         if (!state.playing) return;
-
+        
         if (time - lastTime > spawnInterval) {
             createItem();
             lastTime = time;
         }
-
-        const height = document.getElementById('game-area').clientHeight;
         
+        const height = document.getElementById('game-area').clientHeight;
         for (let i = items.length - 1; i >= 0; i--) {
             const item = items[i];
             item.y += item.speed;
             item.el.style.transform = `translateY(${item.y}px)`;
-
-            if (item.y > height) {
-                item.el.remove();
-                items.splice(i, 1);
+            if (item.y > height) { 
+                item.el.remove(); 
+                items.splice(i, 1); 
             }
         }
-
-        requestAnimationFrame(gameLoop);
+        animationId = requestAnimationFrame(gameLoop);
     }
 
     function check(pressed, keyElement) {
+        if (!state.playing) return;
         let foundIdx = -1;
         let maxY = -Infinity;
 
+        // Find the lowest matching item
         items.forEach((item, idx) => {
-            if (item.val === pressed && item.y > maxY) {
-                maxY = item.y;
-                foundIdx = idx;
+            if (item.val === pressed && item.y > maxY) { 
+                maxY = item.y; 
+                foundIdx = idx; 
             }
         });
 
         if (foundIdx !== -1) {
             const item = items[foundIdx];
-            item.el.style.transition = "all 0.25s ease-out";
-            item.el.style.transform += " scale(2)";
+            item.el.style.transition = "all 0.2s ease-out";
+            item.el.style.transform += " scale(1.5)";
             item.el.style.opacity = "0";
-            
-            setTimeout(() => item.el.remove(), 250);
+            setTimeout(() => item.el.remove(), 200);
             items.splice(foundIdx, 1);
             
             state.score++;
             updateScore();
             
-            keyElement.style.transform = "scale(0.9) translateY(4px)";
+            // Visual feedback on key
+            keyElement.style.transform = "scale(0.9)";
             setTimeout(() => keyElement.style.transform = "", 100);
+
+            if (state.score >= config[state.mode].goal) {
+                celebrate();
+            }
         }
     }
 
     function updateScore() {
         document.getElementById('score-tag').innerText = `PUNTOS: ${state.score}`;
     }
+
+    function celebrate() {
+        state.playing = false;
+        const overlay = document.getElementById('celebration-overlay');
+        overlay.style.display = 'flex';
+        
+        startConfetti();
+        
+        // Auto-close celebration after 3 seconds as requested
+        setTimeout(() => {
+            stopGame();
+        }, 3000);
+    }
+
+    function startConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+
+        const particles = [];
+        const colors = ['#3b82f6', '#22c55e', '#ef4444', '#eab308', '#f97316', '#ec4899', '#a855f7'];
+        
+        for (let i = 0; i < 120; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                r: Math.random() * 6 + 4,
+                d: Math.random() * 10,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                tilt: Math.random() * 10 - 10,
+                speedY: Math.random() * 3 + 2
+            });
+        }
+
+        function draw() {
+            if (document.getElementById('celebration-overlay').style.display !== 'flex') return;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                ctx.stroke();
+                
+                p.y += p.speedY;
+                p.tilt = Math.sin(p.d) * 15;
+                p.d += 0.1;
+
+                if (p.y > canvas.height) {
+                    p.y = -20;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    }
 </script>
 </body>
 </html>
-
-
