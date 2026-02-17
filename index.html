@@ -224,7 +224,7 @@
             to { transform: scale(1.05); }
         }
 
-        footer { height: 30px; background: #0f172a; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        footer { height: 30px; background: #0f172a; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 1.0rem; }
     </style>
 </head>
 <body>
@@ -253,7 +253,7 @@
         <canvas id="confetti-canvas"></canvas>
     </div>
 
-    <button id="exit-btn" style="display:none" onclick="stopGame()">REGRESAR</button>
+    <button id="exit-btn" style="display:none" onclick="stopGame()">IR A MENU</button>
     <div id="score-tag" style="display:none">PUNTOS: 0</div>
     <div id="rain-container"></div>
 </div>
@@ -264,8 +264,8 @@
 
 <script>
     const config = {
-        letters: { data: "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split(""), goal: 12 },
-        numbers: { data: "0123456789".split(""), goal: 7 },
+        letters: { data: "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split(""), goal: 10 },
+        numbers: { data: "0123456789".split(""), goal: 6 },
         colors: { 
             data: [
                 { name: "Rojo", hex: "#ef4444" }, { name: "Azul", hex: "#3b82f6" },
@@ -292,7 +292,7 @@
         items = [];
         
         if (mode === 'colors') { baseSpeed = 1.0; spawnInterval = 2000; } 
-        else { baseSpeed = 1.4; spawnInterval = 1900; }
+        else { baseSpeed = 1.4; spawnInterval = 2000; }
         
         document.getElementById('menu-overlay').style.display = 'none';
         document.getElementById('exit-btn').style.display = 'block';
@@ -492,4 +492,5 @@
 </script>
 </body>
 </html>
+
 
